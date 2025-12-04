@@ -110,42 +110,35 @@ rm -rf host-a-static-website-on-aws
 ---
 
 ### How to Validate the Deployment
-	1.	Confirm instances are in private subnets and passing health checks.
-	2.	Verify ALB target group shows healthy instances.
-	3.	Visit the domain:
-	•	http://yourdomain.com should redirect to HTTPS.
-	•	https://yourdomain.com should load the static site.
-	4.	Trigger scaling (optional):
-	•	Increase load or reduce ASG desired capacity and watch SNS notifications.
+1. Confirm instances are in private subnets and passing health checks.
+2. Verify ALB target group shows healthy instances.
+3. Visit the domain:
+	- http://yourdomain.com should redirect to HTTPS.
+	- https://yourdomain.com should load the static site.
+4. Trigger scaling (optional):
+	- Increase load or reduce ASG desired capacity and watch SNS notifications.
 
 ---
 
 ### Troubleshooting
 
 Targets show unhealthy
-	•	Ensure EC2 SG allows inbound HTTP only from ALB SG.
-	•	Confirm Apache is installed and running:
+- Ensure EC2 SG allows inbound HTTP only from ALB SG.
+- Confirm Apache is installed and running:
 
 systemctl status httpd
 
 
-	•	Ensure health check path matches your site (e.g., /index.html).
+- Ensure health check path matches your site (e.g., /index.html).
 
 Instances can’t pull from GitHub
-	•	Check private route table points to NAT Gateway.
-	•	Confirm NAT Gateway is in a public subnet with route to IGW.
+- Check private route table points to NAT Gateway.
+- Confirm NAT Gateway is in a public subnet with route to IGW.
 
 HTTPS not working
-	•	Verify ACM cert is issued and attached to ALB listener.
-	•	Confirm Route 53 validation CNAME exists.
+- Verify ACM cert is issued and attached to ALB listener.
+- Confirm Route 53 validation CNAME exists.
 
----
-
-### Improvements / Next Steps
-	•	Add a CI/CD pipeline (GitHub Actions → CodeDeploy or SSM) for automatic updates.
-	•	Store static assets in S3 + CloudFront for cheaper global delivery.
-	•	Enable WAF on the ALB for added security.
-	•	Enable CloudWatch alarms for CPU/network scaling policies.
 
 ---
 
